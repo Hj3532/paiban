@@ -426,6 +426,7 @@ export default {
   methods: {
     async getinfo() {
       this.all_.splice(0,this.all_.length)
+      this.calendarOptions.events.splice(0,this.calendarOptions.events.length)
       const a = await this.$http.get(`/schedule/${this.value}`);
       console.log(this.calendarApi);
       console.log("这是我获取到的总数据：");
@@ -547,6 +548,7 @@ export default {
           this.clear()
           this.getinfo()
           this.changelist.splice(0,this.changelist.length)
+          this.show()
         }
       }
     },
