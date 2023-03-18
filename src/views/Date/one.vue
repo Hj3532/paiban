@@ -548,7 +548,6 @@ export default {
           this.clear()
           this.getinfo()
           this.changelist.splice(0,this.changelist.length)
-          this.show()
         }
       }
     },
