@@ -224,23 +224,23 @@
               <span
                 v-if="isshow"
                 style="
-                  display: inline-block;
-                  height: 30px;
+                  display: block;
+                  width: 100px;
+                  height: 20px;
                   text-align: center;
-                  line-height: 30px;
-                  margin-right: 20px;
+                  line-height: 20px;
                 "
                 >{{ arg.timeText }}</span
               >
-              <i>{{ arg.event.title }}</i>
+              <span ref="aaa">{{ arg.event.title }}</span>
               <span
                 v-if="isshow"
                 style="
-                  float: right;
-                  height: 30px;
+                  display: block;
+                  width: 100px;
+                  height: 20px;
                   text-align: center;
-                  line-height: 30px;
-                  margin-right: 800px;
+                  line-height: 20px;
                 "
                 >职务：{{ arg.event.extendedProps.work }}</span
               >
@@ -620,7 +620,7 @@ export default {
     //
     tab(date) {
       this.isshow = true;
-      this.calendarApi.changeView("dayGridDay");
+      this.calendarApi.changeView("timeGridDay");
       this.calendarApi.gotoDate(date);
       this.title = this.calendarApi.view?.title;
       this.ptitle();
@@ -734,11 +734,7 @@ export default {
       this.title = this.calendarApi.view?.title;
     },
     month() {
-      if (this.type === "timeline") {
-        this.calendarApi.changeView("customTimeLineMonth");
-      } else {
-        this.calendarApi.changeView("dayGridMonth");
-      }
+      this.calendarApi.changeView("dayGridMonth");
       this.title = this.calendarApi.view?.title;
       this.ptitle();
       this.ntitle();
@@ -746,11 +742,7 @@ export default {
     },
     week() {
       this.isshow = false;
-      if (this.type === "timeline") {
-        this.calendarApi.changeView("customTimeLineWeek");
-      } else {
-        this.calendarApi.changeView("timeGridWeek");
-      }
+      this.calendarApi.changeView("timeGridWeek");
       // this.calendarApi.today();
       this.title = this.calendarApi.view?.title;
       this.ptitle();
@@ -759,7 +751,7 @@ export default {
     },
     day() {
       this.isshow = true;
-      this.calendarApi.changeView("dayGridDay");
+      this.calendarApi.changeView("timeGridDay");
       // this.calendarApi.today();
       this.title = this.calendarApi.view?.title;
       this.ptitle();
@@ -877,5 +869,12 @@ p {
   width: 2000px !important;
   height: 35px !important;
 }
+.el-popover__reference span:nth-child(2) {
+  display: block;
+  width: 100px;
+  text-align: center;
+  height: 20px;
+  line-height: 20px;
+} 
 </style>
   
