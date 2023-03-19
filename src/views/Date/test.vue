@@ -439,13 +439,13 @@ export default {
               b[i][j].clazzForEmpList[m].endTime === "01:00:00"
             ) {
               end_ =
-                dayjs(b[i][j].clazzForEmpList[m].date)
+                dayjs(b[i][j].clazzForEmpList[m].date).add(1,'day')
                   .format("YYYY-MM-DD") +
                 " " +
                 b[i][j].clazzForEmpList[m].endTime;
             } else {
               end_ =
-                dayjs(b[i][j].clazzForEmpList[m].date).subtract(1,'day').format("YYYY-MM-DD") +
+                dayjs(b[i][j].clazzForEmpList[m].date).format("YYYY-MM-DD") +
                 " " +
                 b[i][j].clazzForEmpList[m].endTime;
             }
@@ -455,10 +455,13 @@ export default {
               title: b[i][j].clazzForEmpList[m].name,
               work: b[i][j].clazzForEmpList[m].position,
               start:
-                dayjs(b[i][j].clazzForEmpList[m].date).subtract(1,'day').format("YYYY-MM-DD") +
+                dayjs(b[i][j].clazzForEmpList[m].date).format("YYYY-MM-DD") +
                 " " +
                 b[i][j].clazzForEmpList[m].startTime,
               end: end_,
+              dayId: b[i][j].dayId,
+                clazzId: b[i][j].clazzId,
+                clazzForEmpId: b[i][j].clazzForEmpList[m].clazzForEmpId,
               backgroundColor: this.color_[j % 8],
             });
             }else {
@@ -467,13 +470,13 @@ export default {
                 title: b[i][j].clazzForEmpList[m].name,
                 work: b[i][j].clazzForEmpList[m].position,
                 start:
-                dayjs(b[i][j].date).subtract(1,'day').format("YYYY-MM-DD") +
+                dayjs(b[i][j].date).format("YYYY-MM-DD") +
                 " " +
                 b[i][j].startTime,
-                end:dayjs(b[i][j].date).subtract(1,'day').format("YYYY-MM-DD") +
+                end:dayjs(b[i][j].date).format("YYYY-MM-DD") +
                 " " +
                 b[i][j].end,
-                backgroundColor: this.color_[j % 8]
+                backgroundColor: this.color_[j % 8],
               })
             }
             
@@ -700,18 +703,18 @@ export default {
     },
     // 日历日程点击事件
     handleEventClick(calEvent) {
-      console.log(calEvent, "事件2");
-      this.dialogVisible = true;
-      const id = calEvent.event.id;
-      const info = this.subList.filter((item) => {
-        return item.id === id;
-      });
-      this.$nextTick(() => {
-        this.form = _.cloneDeep(info[0]);
-        // 处理时间回显
-        this.getShowTime(this.form.startDate, this.form.endDate);
-        // console.log(info[0], '数据')
-      });
+      console.log(this.calendarApi.getEvents());
+      // this.dialogVisible = true;
+      // const id = calEvent.event.id;
+      // const info = this.subList.filter((item) => {
+      //   return item.id === id;
+      // });
+      // this.$nextTick(() => {
+      //   this.form = _.cloneDeep(info[0]);
+      //   // 处理时间回显
+      //   this.getShowTime(this.form.startDate, this.form.endDate);
+      //   // console.log(info[0], '数据')
+      // });
     },
     handleEvents(events) {
       // console.log(events, '事件3')
@@ -840,7 +843,7 @@ p {
   } */
 .fc-timegrid-slots tr td:last-child {
   width: 2000px !important;
-  height: 20px !important;
+  height: 35px !important;
 }
 .fc-daygrid-day-events .fc-daygrid-event-harness a {
   border: none;

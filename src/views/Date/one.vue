@@ -406,7 +406,7 @@ export default {
   },
   // created时就发自动安排的请求
   async created() {
-    this.getinfo()
+    await this.getinfo()
   },
 
   mounted() {
@@ -494,6 +494,7 @@ export default {
       }
     },
     handleEventClick(info) {
+      console.log(this.calendarApi.getEvents())
       if(change_ == 0){
         if(info.event.id !== this.id){
           this.$message({
@@ -529,10 +530,6 @@ export default {
         });
         change_++;
       } else {
-        this.$message({
-          message: "提交成功",
-          type: "success",
-        });
         change_ = 0;
         const a = await this.$http.post("/schedule/exchange", {
           shopId: this.value,
@@ -548,6 +545,10 @@ export default {
           this.clear()
           this.getinfo()
           this.changelist.splice(0,this.changelist.length)
+          this.$message({
+          message: "提交成功",
+          type: "success",
+        });
         }
       }
     },
@@ -649,11 +650,10 @@ export default {
         this.calendarOptions.events.push();
       }
     },
-
-    //  一键自动排班触发事件
-    show() {
+    show_(){
       this.jobValue = "";
       this.clear();
+      // this.old.splice(0, this.old.length);
       this.calendarOptions.events.splice(0, this.calendarOptions.events.length);
       const star = dayjs(this.calendarApi.view.activeStart).format(
         "YYYY-MM-DD "
@@ -662,13 +662,33 @@ export default {
       console.log(star + "" + end);
       for (let i = 0; i < this.all_.length; i++) {
         if (this.all_[i].start >= star && this.all_[i].end < end) {
-          this.calendarOptions.events.push(this.all_[i]);
+          // this.old.push(this.all_[i]);
+          this.calendarOptions.events.push(this.all_[i])
         } else if (this.all_[i].end >= end) {
           break;
         }
       }
-      this.old.splice(0, this.old.length);
-      this.old = this.old.concat(this.calendarOptions.events);
+    },
+    //  一键自动排班触发事件
+    show() {
+      // await this.show_()
+      // this.old.splice(0, this.old.length);
+      // this.old = this.old.concat(this.calendarOptions.events);
+      console.log(this.all_)
+      this.clear()
+      this.calendarOptions.events.splice(0,this.calendarOptions.events.length)
+      let star = dayjs(this.calendarApi.view.activeStart).format("YYYY-MM-DD ");
+      let end = dayjs(this.calendarApi.view.activeEnd).format("YYYY-MM-DD ");
+      console.log(star+''+end)
+      for(let i = 0 ; i<this.all_.length ; i++){
+        if(this.all_[i].start >= star && this.all_[i].end < end){
+          this.calendarOptions.events.push(this.all_[i])
+        }else if(this.all_[i].end >= end){
+          break
+        }
+      }
+      this.old.splice(0,this.old.length)
+      this.old = this.old.concat(this.calendarOptions.events)
     },
 
     // 查询事件
@@ -762,13 +782,11 @@ export default {
 
     //
     clear() {
-      for (let i = this.calendarApi.getEvents().length - 1; i >= 0; i = i - 2) {
-        if (i > 2) {
-          this.calendarApi.getEvents()[i].remove();
-          this.calendarApi.getEvents()[0].remove();
-        } else {
-          this.calendarApi.getEvents()[0].remove();
-        }
+      if(this.calendarApi.getEvents().length > 0){
+        this.calendarApi.getEvents()[0].remove()
+        this.clear()
+      }else {
+        return
       }
     },
     // 单击事件
@@ -798,7 +816,7 @@ export default {
     },
     //
     handleEvents(events) {
-      this.all = events;
+      // this.all = events;
     },
   },
 };
