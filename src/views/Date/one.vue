@@ -408,7 +408,6 @@ export default {
   async created() {
     await this.getinfo()
   },
-
   mounted() {
     setTimeout(() => {
       this.showFullcalendar = false;
@@ -650,31 +649,8 @@ export default {
         this.calendarOptions.events.push();
       }
     },
-    show_(){
-      this.jobValue = "";
-      this.clear();
-      // this.old.splice(0, this.old.length);
-      this.calendarOptions.events.splice(0, this.calendarOptions.events.length);
-      const star = dayjs(this.calendarApi.view.activeStart).format(
-        "YYYY-MM-DD "
-      );
-      const end = dayjs(this.calendarApi.view.activeEnd).format("YYYY-MM-DD ");
-      console.log(star + "" + end);
-      for (let i = 0; i < this.all_.length; i++) {
-        if (this.all_[i].start >= star && this.all_[i].end < end) {
-          // this.old.push(this.all_[i]);
-          this.calendarOptions.events.push(this.all_[i])
-        } else if (this.all_[i].end >= end) {
-          break;
-        }
-      }
-    },
     //  一键自动排班触发事件
     show() {
-      // await this.show_()
-      // this.old.splice(0, this.old.length);
-      // this.old = this.old.concat(this.calendarOptions.events);
-      console.log(this.all_)
       this.clear()
       this.calendarOptions.events.splice(0,this.calendarOptions.events.length)
       let star = dayjs(this.calendarApi.view.activeStart).format("YYYY-MM-DD ");
