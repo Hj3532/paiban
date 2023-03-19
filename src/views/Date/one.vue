@@ -756,7 +756,7 @@ export default {
     },
     // ===月、周、今天按钮合集end===
 
-    //
+    //清除全部事件
     clear() {
       if(this.calendarApi.getEvents().length > 0){
         this.calendarApi.getEvents()[0].remove()

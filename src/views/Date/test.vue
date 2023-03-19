@@ -624,14 +624,6 @@ export default {
       this.calendarApi.prev();
     },
     clear() {
-      // for (let i = this.calendarApi.getEvents().length-1; i >= 0; i=i-2) {
-      //   if(i >2){
-      //     this.calendarApi.getEvents()[i].remove()
-      //     this.calendarApi.getEvents()[0].remove()
-      //   }else {
-      //     this.calendarApi.getEvents()[0].remove()
-      //   }    
-      // }
       if(this.calendarApi.getEvents().length > 0){
         this.calendarApi.getEvents()[0].remove()
         this.clear()
