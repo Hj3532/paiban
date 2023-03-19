@@ -793,7 +793,7 @@ export default {
     },
     //
     handleEvents(events) {
-      // this.all = events;
+      this.all = events;
     },
   },
 };
