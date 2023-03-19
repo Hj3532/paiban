@@ -791,7 +791,7 @@ export default {
         this.calendarApi.changeView("timeGridWeek");
       }
     },
-    //
+    //事件变化
     handleEvents(events) {
       this.all = events;
     },
