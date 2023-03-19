@@ -771,6 +771,7 @@ export default {
         clickCount = 0;
       }
       clickCount += 1;
+      // clickCount += 1;
       prev = e.dateStr;
       setTimeout(() => {
         if (clickCount === 2) {
