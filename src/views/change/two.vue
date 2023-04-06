@@ -61,10 +61,12 @@ export default {
         async agree(row){
             const a = await this.$http.put('/apply/delExchange/'+row.applyId+'/1')
             console.log(a.data)
+            location.reload()
         },
         async refuse(row){
             const a = await this.$http.put('/apply/delExchange/'+row.applyId+'/2')
             console.log(a)
+            location.reload()
         }
     }
 }
