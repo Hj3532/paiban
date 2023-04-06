@@ -62,7 +62,7 @@ export default {
     console.log(token)
     const {data:res} = await this.$http.get('/emp/'+ token)
     console.log(res)
-    if(res.data.position === '普通员工') {
+    if(res.data.position !== '店长') {
       for(let i = 0 ; i < this.$router.options.routes.length ; i++){
         if(this.$router.options.routes[i].path === '/acl'){
           this.$router.options.routes[i].show = false

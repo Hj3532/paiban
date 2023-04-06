@@ -66,6 +66,30 @@ export const constantRoutes = [
     ]
   },
   {
+    path:'/change',
+    show:true,
+    component: Layout,
+    redirect: '/change/me',
+    meta: {
+      title: '交换管理',
+      icon: 'el-icon-lock'
+    },
+    children:[
+      {
+        path:'me',
+        show: true,
+        component: ()=> import('@/views/change/one'),
+        meta: { title: '向别人申请' }
+      },
+      {
+        path:'other',
+        show: true,
+        component: ()=> import('@/views/change/two'),
+        meta: { title: '别人向我申请'}
+      }
+    ]
+  },
+  {
     path: '/user',
     show: true,
     component: Layout,

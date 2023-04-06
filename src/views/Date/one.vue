@@ -179,7 +179,7 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-
+        
         <el-form-item>
           <el-button @click="resetForm('form')">取消</el-button>
           <el-button type="primary" @click="submitForm('form')">提交</el-button>
@@ -530,19 +530,33 @@ export default {
         change_++;
       } else {
         change_ = 0;
-        const a = await this.$http.post("/schedule/exchange", {
-          shopId: this.value,
-          dayIdOne: this.changelist[0].extendedProps.dayId,
-          clazzIdOne: this.changelist[0].extendedProps.clazzId,
-          empIdOne: this.changelist[0].extendedProps.clazzForEmpId,
-          dayIdTwo: this.changelist[1].extendedProps.dayId,
-          clazzIdTwo: this.changelist[1].extendedProps.clazzId,
-          empIdTwo: this.changelist[1].extendedProps.clazzForEmpId,
+        console.log(this.changelist[0].start)
+        console.log(dayjs(this.changelist[0].start).subtract(8,'h').format("YYYY-MM-DD HH-mm-ss"))
+        const a = await this.$http.post("/apply/applyExchange", {
+          applyExchange: {
+            exchangeDate: dayjs(this.changelist[0].start).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[0],
+            exchangedDate: dayjs(this.changelist[1].start).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[0],
+            exchangeEndTime: dayjs(this.changelist[0].end).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[1],
+            exchangeId: parseInt(this.changelist[0].id),
+            exchangeStartTime:dayjs(this.changelist[0].start).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[1],
+            exchangedEndTime:dayjs(this.changelist[1].end).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[1],
+            exchangedId: parseInt(this.changelist[1].id),
+            exchangedStartTime:dayjs(this.changelist[1].start).subtract(8,'h').format("YYYY-MM-DD H:mm:ss").split(" ")[1]
+          },
+          exchangeMsg:{
+            shopId: this.value,
+            dayIdOne: this.changelist[0].extendedProps.dayId,
+            clazzIdOne: this.changelist[0].extendedProps.clazzId,
+            empIdOne: this.changelist[0].extendedProps.clazzForEmpId,
+            dayIdTwo: this.changelist[1].extendedProps.dayId,
+            clazzIdTwo: this.changelist[1].extendedProps.clazzId,
+            empIdTwo: this.changelist[1].extendedProps.clazzForEmpId,
+          }
         });
         console.log(a.data)
         if(a.data.flag){
-          this.clear()
-          this.getinfo()
+          // this.clear()
+          // this.getinfo()
           this.changelist.splice(0,this.changelist.length)
           this.$message({
           message: "提交成功",
@@ -663,6 +677,8 @@ export default {
           break
         }
       }
+      console.log(this.calendarOptions.events)
+      console.log(this.calendarOptions.events[0].start.split(" "))
       this.old.splice(0,this.old.length)
       this.old = this.old.concat(this.calendarOptions.events)
     },
@@ -684,6 +700,7 @@ export default {
         }
       } else {
         console.log("111");
+        this.clear()
         this.calendarOptions.events = this.calendarOptions.events.concat(
           this.old
         );
@@ -758,12 +775,17 @@ export default {
 
     //清除全部事件
     clear() {
-      if(this.calendarApi.getEvents().length > 0){
-        this.calendarApi.getEvents()[0].remove()
-        this.clear()
-      }else {
-        return
+      for(let i = 0 ; i < this.calendarApi.getEvents().length ;){
+        if(this.calendarApi.getEvents().length > 0){
+          this.calendarApi.getEvents()[0].remove()
+        }
       }
+      // if(this.calendarApi.getEvents().length > 0){
+      //   this.calendarApi.getEvents()[0].remove()
+      //   this.clear()
+      // }else {
+      //   return
+      // }
     },
     // 单击事件
     handleDateClick(e) {
