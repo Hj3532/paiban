@@ -305,6 +305,7 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 
+let IDD = 0
 const clickCount = 0
 let change_ = 0
 let flag = 0
@@ -446,11 +447,13 @@ export default {
   },
   // created时就发自动安排的请求
   async created() {
-    this.roomValue = this.shopid_
+    
     setTimeout(async() => {
-      await this.getinfo()
-      await this.getemp()
-    }, 2000)
+      IDD = this.shopid_
+       this.roomValue = IDD
+       this.getinfo()
+       this.getemp()
+    }, 3000)
   },
   mounted() {
     setTimeout(() => {
