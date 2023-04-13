@@ -449,11 +449,10 @@ export default {
   async created() {
     
     setTimeout(async() => {
-      IDD = this.shopid_
-       this.roomValue = IDD
+       this.roomValue = this.shopid_
        this.getinfo()
        this.getemp()
-    }, 3000)
+    }, 1000)
   },
   mounted() {
     setTimeout(() => {
