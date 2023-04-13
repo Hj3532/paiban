@@ -95,22 +95,22 @@
         <el-button
           v-if="!daochu"
           icon="el-icon-edit"
-          style="border-width: 1.5px; margin-right: 4px"
+          style="border-width: 1.5px; margin-right: 4px;border-radius: 20px"
           @click="addNewInfo()"
         >新增</el-button>
         <el-button
           v-if="!daochu"
           icon="el-icon-search"
-          style="border-width: 1.5px; margin-right: 4px"
+          style="border-width: 1.5px; margin-right: 4px;border-radius: 20px"
           @click="search"
         >查询</el-button>
         <el-button
           v-if="!daochu"
           icon="el-icon-search"
-          style="border-width: 1.5px; margin-right: 4px"
+          style="border-width: 1.5px; margin-right: 4px;border-radius: 20px"
           @click="change1"
         >交换</el-button>
-        <el-button icon="el-icon-search" @click="exchange">切换视图</el-button>
+        <el-button icon="el-icon-search" @click="exchange" style="border-radius: 20px">切换视图</el-button>
         <el-button type="primary" circle @click="show">排</el-button>
       </div>
     </div>

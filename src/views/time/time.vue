@@ -18,11 +18,11 @@
       <div id="one">
         <div
           id="ec"
-          style="width: 455px; height: 700px; float: left; margin-top: 50px"
+          style="width: 550px; height: 700px; float: left; margin-top: 50px"
         />
         <div
           id="pie"
-          style="width: 455px; height: 800px; float: right; margin-top: 70px;margin-right: 10px"
+          style="width: 550px; height: 800px; float: right; margin-top: 70px"
         />
       </div>
       <!-- 柱状图和饼图容器end -->
@@ -225,9 +225,9 @@ export default {
         this.name.splice(0, this.name.length)
         this.getinfo()
         fa.innerHTML +=
-          '<div style="width: 655px; height: 700px; float: left;margin-top: 50px;" id="ec"></div>'
+          '<div style="width: 550px; height: 700px; float: left; margin-top: 50px" id="ec"></div>'
         fa.innerHTML +=
-          ' <div style="width: 655px;height: 800px;float: left;margin-top: 70px;"id="pie"></div>'
+          ' <div style="width: 550px; height: 800px; float: right; margin-top: 70px" id="pie"></div>'
       } else {
         this.$message({
           message: '上一周暂无数据',
@@ -256,9 +256,9 @@ export default {
       this.name.splice(0, this.name.length)
       this.getinfo()
       fa.innerHTML +=
-        '<div style="width: 655px; height: 700px; float: left;margin-top: 50px;" id="ec"></div>'
+        '<div style="width: 550px; height: 700px; float: left; margin-top: 50px" id="ec"></div>'
       fa.innerHTML +=
-        ' <div style="width: 655px;height: 800px;float: left;margin-top: 70px;"id="pie"></div>'
+        ' <div style="width: 550px; height: 800px; float: right; margin-top: 70px" id="pie"></div>'
       setTimeout(() => {
         this.test()
         this.pie()
