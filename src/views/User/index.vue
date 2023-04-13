@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <el-form style="width: 90%">
+  <div style="background-color: #F6FAFD; border-radius: 20px;margin-top: 10px">
+    <el-form style="width: 40%;margin-left:265px">
       <el-form-item label="员工ID" label-width="120px">
-        <el-input v-model="user.ID" autocomplete="off" readonly="readonly" />
+        <el-input v-model="user.ID" autocomplete="off" readonly="readonly" style="text-align: center"/>
       </el-form-item>
       <el-form-item label="员工name" label-width="120px">
-        <el-input v-model="user.name" autocomplete="off" readonly="readonly" />
+        <el-input v-model="user.name" autocomplete="off" readonly="readonly" style="text-align: center"/>
       </el-form-item>
       <el-form-item label="员工password" label-width="120px">
         <el-input
@@ -32,7 +32,7 @@
       <el-form-item label="员工email" label-width="120px">
         <el-input v-model="user.email" autocomplete="off" readonly="readonly" />
       </el-form-item>
-      <el-button type="primary" style="margin-left: 865px" @click="editPerson">修改个人信息</el-button>
+      <el-button type="primary" style="margin-left: 603px" @click="editPerson">修改个人信息</el-button>
     </el-form>
     <!--修改个人信息-->
     <el-dialog title="修改员工(如需修改密码，密码将被重置！)" :visible.sync="dialogFormVisible_edit">

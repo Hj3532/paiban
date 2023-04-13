@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card style="background-color: #F6FAFD; border-radius: 30px;margin-top: 10px">
     <el-form inline>
       <el-form-item>
         <el-input v-model="input" placeholder="请输入门店ID" />
@@ -162,6 +162,7 @@ import axios from 'axios'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'RoleList',
+  props:["shopid_"],
   // inject: ['reload'],
   data() {
     return {

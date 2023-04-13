@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card style="background-color: #F6FAFD; border-radius: 30px;margin-top: 10px">
     <el-form inline>
       <el-form-item>
         <el-input v-model="input" placeholder="请输入员工姓名" />
@@ -61,13 +61,13 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="50px" />
+      <el-table-column type="selection" width="50px"/>
       <el-table-column type="index " label="序号" width="100px" align="center">
         <template scope="scope">
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ID" label="员工ID" width="" align="center" />
+      <el-table-column prop="ID" label="员工ID" width="" align="center"/>
       <el-table-column prop="name" label="员工name" width="" align="center" />
       <!--      <el-table-column prop="password" label="员工密码" width="" align="center" />-->
       <el-table-column
@@ -202,6 +202,7 @@ import { searchEmployee } from '@/api/searchemployee'
 export default {
   name: 'AclUserList',
   // inject: ['reload'],
+  props:["shopid_"],
   data() {
     return {
       options: [

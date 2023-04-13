@@ -14,12 +14,14 @@ import router from '@/router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import * as Echarts from 'echarts'
 import axios from 'axios'
 axios.defaults.baseURL = '/api'
 Vue.prototype.$http = axios
 Vue.use(ElementUI)
 
+Vue.prototype.echarts = Echarts
+Vue.use(Echarts)
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明

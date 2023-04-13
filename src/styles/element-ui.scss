@@ -18,10 +18,12 @@
 
 // to fixed https://github.com/ElemeFE/element/issues/2461
 .el-dialog {
-  transform: none;
+  transition: all 3s;
   left: 0;
   position: relative;
   margin: 0 auto;
+  border-radius: 60px;
+  background-color: #F6FAFD;
 }
 
 // refine element ui upload

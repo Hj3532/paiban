@@ -26,9 +26,9 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
-  data(){
+  data() {
     return {
-      routes:[]
+      routes: []
     }
   },
   computed: {
@@ -60,24 +60,23 @@ export default {
   async mounted() {
     const token = localStorage.getItem('token')
     console.log(token)
-    const {data:res} = await this.$http.get('/emp/'+ token)
+    const { data: res } = await this.$http.get('/emp/' + token)
     console.log(res)
-    if(res.data.position !== '店长') {
-      for(let i = 0 ; i < this.$router.options.routes.length ; i++){
-        if(this.$router.options.routes[i].path === '/acl'){
+    if (res.data.position !== '店长') {
+      for (let i = 0; i < this.$router.options.routes.length; i++) {
+        if (this.$router.options.routes[i].path === '/acl') {
           this.$router.options.routes[i].show = false
         }
       }
-    }
-    else if(res.data.position === '店长') {
-      for(let i = 0 ; i < this.$router.options.routes.length ; i++){
-        if(this.$router.options.routes[i].path === '/acl'){
+    } else if (res.data.position === '店长') {
+      for (let i = 0; i < this.$router.options.routes.length; i++) {
+        if (this.$router.options.routes[i].path === '/acl') {
           this.$router.options.routes[i].children[1].show = false
         }
       }
     }
     // console.log(this.$router.options.routes)
-    this.routes=this.$router.options.routes
+    this.routes = this.$router.options.routes
   }
 }
 </script>

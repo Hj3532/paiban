@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar" style="background-color: #F6FAFD;border-radius: 15px">
     <hamburger
       :is-active="sidebar.opened"
       class="hamburger-container"
@@ -9,31 +9,32 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-button class="avatar-container" @click="showLogo">
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" alt="">
-          <i class="el-icon-caret-bottom" />
+          <!--          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" alt="">-->
+          <img src="../../icons/svg/setting.png" class="user-avatar" alt="">
+          <!--          <i class="el-icon-caret-bottom" />-->
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/date">
-            <el-dropdown-item divided>
-              <el-button style="width: 150px"> 首页 </el-button>
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
-            <el-button style="width: 150px" @click="aboutStore">关于门店规则</el-button>
-          </el-dropdown-item>
-          <el-dropdown-item divided>
-            <el-button style="width: 150px" @click="aboutEmp">关于自己的偏好</el-button>
-          </el-dropdown-item>
-          <el-dropdown-item divided>
-            <el-button style="display: block;width: 150px" @click="logout_">退出</el-button>
-          </el-dropdown-item>
-          <!--          <el-button divided @click="aboutStore">关于门店规则</el-button>-->
-          <!--          <el-button divided @click="aboutEmp">关于自己的偏好</el-button>-->
-        </el-dropdown-menu>
-      </el-dropdown>
+      </el-button>
     </div>
+    <!--    右上角logo-->
+    <el-dialog :visible.sync="dialogFormVisible_logo" title="个人中心">
+      <div style="border-radius: 60px">
+        <el-button icon="el-icon-s-custom" style="width: 150px;height:150px;border-radius: 60px;margin-left: 50px;margin-top: 40px" @click="showPrivacy">
+          个人信息
+          <h1 style="font-size: 0.175em">ID、姓名、邮箱等</h1>
+        </el-button>
+        <el-button icon="el-icon-s-tools" style="width: 150px;height:150px;border-radius: 60px;margin-left: 45px;margin-top: 40px" @click="aboutStore">
+          关于门店规则
+          <h1 style="font-size: 0.175em">客流量、准备时间等</h1>
+        </el-button>
+        <el-button icon="el-icon-edit" style="width: 150px;height:150px;border-radius: 60px;margin-left: 40px;margin-top: 40px" @click="aboutEmp">
+          关于自己的偏好
+          <h1 style="font-size: 0.175em">班次偏好、时长偏好等</h1>
+        </el-button>
+        <el-button style="display: block;width: 150px;border-radius: 60px;margin-left: 250px;margin-top: 40px" @click="logout_">退出</el-button>
+      </div>
+    </el-dialog>
     <!--查看排班规则-->
     <el-dialog title="排班规则详情" :visible.sync="dialogFormVisible_aboutStore">
       <el-form style="width: 90%">
@@ -61,9 +62,18 @@
         <el-form-item label="门店开始准备所需要人数" label-width="260px">
           <el-input v-model="startNeedPeoNum" autocomplete="off" readonly="readonly" />
         </el-form-item>
+        <el-form-item label="开店前准备需要的员工类型" label-width="260px">
+          <el-input v-model="startShopEmp" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="关店需要的员工类型" label-width="260px">
+          <el-input v-model="endShopEmp" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="平时工作需要的员工类型" label-width="260px">
+          <el-input v-model="routineEmp" autocomplete="off" readonly="readonly" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" icon="el-icon-edit" @click="editStoreRule">修 改</el-button>
+        <el-button type="primary" icon="el-icon-edit" v-if="ifStore" @click="editStoreRule">修 改</el-button>
         <el-button @click="dialogFormVisible_aboutStore = false">关 闭</el-button>
       </div>
     </el-dialog>
@@ -93,6 +103,39 @@
         </el-form-item>
         <el-form-item label="门店开始准备所需要人数" label-width="260px">
           <el-input v-model="startNeedPeoNum2" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="开店前准备需要的员工类型" label-width="260px">
+          <el-select v-model="startShopEmp2" style="width: 100px">
+            <el-option
+              v-for="item in empTypes"
+              :key="item.value"
+              ref="op"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关店需要的员工类型" label-width="260px">
+          <el-select v-model="endShopEmp2" style="width: 100px">
+            <el-option
+              v-for="item in empTypes"
+              :key="item.value"
+              ref="op"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="平时工作需要的员工类型" label-width="260px">
+          <el-select v-model="routineEmp2" style="width: 100px">
+            <el-option
+              v-for="item in empTypes"
+              :key="item.value"
+              ref="op"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -228,7 +271,7 @@
               start: '06:15',
               step: '00:15',
               end: '24:00',
-              minTime: startTime
+              minTime: startTime_
             }"
             @change="change_2"
           />
@@ -243,6 +286,73 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" icon="el-icon-edit" @click="sureEditEmpPrefer">确 定</el-button>
         <el-button @click="dialogFormVisible_editPrefer = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+    <!--     个人信息-->
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible_privacy">
+      <el-form style="width: 70%;margin-left: 80px">
+        <el-form-item label="员工ID" label-width="120px">
+          <el-input v-model="user.ID" autocomplete="off" readonly="readonly" style="text-align: center" />
+        </el-form-item>
+        <el-form-item label="员工name" label-width="120px">
+          <el-input v-model="user.name" autocomplete="off" readonly="readonly" style="text-align: center" />
+        </el-form-item>
+        <el-form-item label="员工password" label-width="120px">
+          <el-input
+            v-model="user.password"
+            autocomplete="off"
+            readonly="readonly"
+            type="password"
+          />
+        </el-form-item>
+        <el-form-item label="员工position" label-width="120px">
+          <el-input
+            v-model="user.position"
+            autocomplete="off"
+            readonly="readonly"
+          />
+        </el-form-item>
+        <el-form-item label="隶属门店ID" label-width="120px">
+          <el-input
+            v-model="user.shopId"
+            autocomplete="off"
+            readonly="readonly"
+          />
+        </el-form-item>
+        <el-form-item label="员工email" label-width="120px">
+          <el-input v-model="user.email" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="editPerson">修改个人信息</el-button>
+        <el-button @click="dialogFormVisible_privacy = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+    <!--修改个人信息-->
+    <el-dialog title="修改员工(如需修改密码，密码将被重置！)" :visible.sync="dialogFormVisible_edit">
+      <el-form style="width: 90%">
+        <el-form-item label="员工ID" label-width="120px">
+          <el-input v-model="ID_edit" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="员工name" label-width="120px">
+          <el-input v-model="name_edit" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="员工password" label-width="120px">
+          <el-input v-model="password_edit" autocomplete="off" type="password" />
+        </el-form-item>
+        <el-form-item label="员工position" label-width="120px">
+          <el-input v-model="position_edit" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="隶属门店ID" label-width="120px">
+          <el-input v-model="shopId_edit" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="员工email" label-width="120px">
+          <el-input v-model="email_edit" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible_edit = false">取 消</el-button>
+        <el-button type="primary" @click="sureEditPrivacy">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -261,7 +371,38 @@ export default {
   },
   data() {
     return {
-      // week: ['', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      ifStore: true,
+      dialogFormVisible_logo: false,
+      dialogFormVisible_edit: false,
+      ID_edit: '',
+      name_edit: '',
+      password_edit: '',
+      shopId_edit: '',
+      email_edit: '',
+      position_edit: '',
+      user: {
+        ID: '',
+        name: '',
+        password: '',
+        shopId: '',
+        email: '',
+        position: ''
+      },
+      dialogFormVisible_privacy: false,
+      empTypes: [
+        {
+          value: '清洁员',
+          label: '清洁员'
+        },
+        {
+          value: '收银员',
+          label: '收银员'
+        },
+        {
+          value: '普通员工',
+          label: '普通员工'
+        }
+      ],
       options: [
         {
           value: '1',
@@ -310,26 +451,6 @@ export default {
       endTime_: '', // 员工偏好结束时间
       everydayTime_: '', // 每天时长偏好
       everyWeekTime_: '', // 每周时长偏好
-      // dialogFormVisible_editPrefer_1: false,
-      // dialogFormVisible_editPrefer_2: false,
-      // dialogFormVisible_editPrefer_3: false,
-      // dialogFormVisible_editPrefer_4: false,
-      // prefer_value_1_: '',
-      // prefer_value_1_1_: '',
-      // prefer_value_2_: '',
-      // prefer_value_2_1_: '',
-      // prefer_value_3_: '',
-      // prefer_value_4_: '',
-      //
-      //
-      // prefer_type: '',
-      // edit_type: '',
-      // dialogFormVisible_editPrefer: false,
-      // emp_id: '',
-      // dialogFormVisible_1: false, // 类型一
-      // dialogFormVisible_2: false, // 类型二
-      // dialogFormVisible_3: false, // 类型三
-      // dialogFormVisible_4: false, // 类型四
       state: '',
       tokenShopID: '',
       dialogFormVisible_aboutStore: false,
@@ -343,6 +464,11 @@ export default {
       preNeedTime: '',
       predictNum: '',
       startNeedPeoNum: '',
+      startShopEmp: '',
+      endShopEmp: '',
+      routineEmp: '',
+      //
+      //
       shopId2: '',
       defaultNum2: '',
       endNeedTime2: '',
@@ -351,6 +477,11 @@ export default {
       preNeedTime2: '',
       predictNum2: '',
       startNeedPeoNum2: '',
+      startShopEmp2: '',
+      endShopEmp2: '',
+      routineEmp2: '',
+      //
+      //
       token_emp_id: '',
       type_1: {
         type: 1,
@@ -370,26 +501,6 @@ export default {
         type: 4,
         time: ''
       }
-      //
-      //
-      // prefer_type_1: '',
-      // // prefer_type_num: '',
-      // prefer_value_1: '',
-      // prefer_value_1_1: '',
-      // //
-      // //
-      // prefer_type_2: '',
-      // prefer_value_2: '',
-      // prefer_value_2_1: '',
-      // //
-      // //
-      // prefer_type_3: '',
-      // prefer_value_3: '',
-      // //
-      // //
-      // prefer_type_4: '',
-      // prefer_value_4: ''
-      // prefer_value_mean: ''
     }
   },
   computed: {
@@ -402,8 +513,16 @@ export default {
     this.token_emp_id = res.data.ID
     // console.log(this.emp_id)
   },
-  mounted() {
-    // console.log(this.exchange_('周一', '周三'))
+  async mounted() {
+    const token = localStorage.getItem('token')
+    const { data: res } = await this.$http.get('/emp/' + token)
+    // console.log(res)
+    this.user.ID = res.data.ID
+    this.user.email = res.data.email
+    this.user.name = res.data.name
+    this.user.password = res.data.password
+    this.user.position = res.data.position
+    this.user.shopId = res.data.shopId
   },
   methods: {
     change_1() {
@@ -468,113 +587,17 @@ export default {
       this.$router.push('/login')
       localStorage.removeItem('token')
     },
-    // exchange_(a, b) {
-    //   const num1 = this.week.indexOf(a)
-    //   const num2 = this.week.indexOf(b)
-    //   return num1 + ',' + num2
-    // },
-    // editPreferValue_1() {
-    //   const suc = this.$http.put('/empPrefer', [{
-    //     empId: this.emp_id,
-    //     preferType: parseInt(this.prefer_type),
-    //     preferValue: this.exchange_(this.prefer_value_1_, this.prefer_value_1_1_)
-    //   }])
-    //   suc.then((res) => {
-    //     if (res.data.flag) {
-    //       this.dialogFormVisible_editPrefer_1 = false
-    //       this.dialogFormVisible_editPrefer = false
-    //       this.$message({ message: '修改成功！', type: 'success' })
-    //       location.reload()
-    //     }
-    //   })
-    // },
-    // editPreferValue_2() {
-    //   const prefer_value_1_ = this.prefer_value_2_
-    //   const prefer_value_1_1_ = this.prefer_value_2_1_
-    //   const value = prefer_value_1_.toString() + '-' + prefer_value_1_1_.toString()
-    //   // console.log(value)
-    //   const suc = this.$http.put('/empPrefer', [{
-    //     empId: this.emp_id,
-    //     preferType: parseInt(this.prefer_type),
-    //     preferValue: value
-    //   }])
-    //   suc.then((res) => {
-    //     if (res.data.flag) {
-    //       this.dialogFormVisible_editPrefer_2 = false
-    //       this.dialogFormVisible_editPrefer = false
-    //       this.$message({ message: '修改成功！', type: 'success' })
-    //       location.reload()
-    //     }
-    //   })
-    // },
-    // editPreferValue_3() {
-    //   const suc = this.$http.put('/empPrefer', [{
-    //     empId: this.emp_id,
-    //     preferType: parseInt(this.prefer_type),
-    //     preferValue: this.prefer_value_3_
-    //   }])
-    //   suc.then((res) => {
-    //     if (res.data.flag) {
-    //       this.dialogFormVisible_editPrefer_3 = false
-    //       this.dialogFormVisible_editPrefer = false
-    //       this.$message({ message: '修改成功！', type: 'success' })
-    //       location.reload()
-    //     }
-    //   })
-    // },
-    // editPreferValue_4() {
-    //   const suc = this.$http.put('/empPrefer', [{
-    //     empId: this.emp_id,
-    //     preferType: parseInt(this.prefer_type),
-    //     preferValue: this.prefer_value_4_
-    //   }])
-    //   suc.then((res) => {
-    //     if (res.data.flag) {
-    //       this.dialogFormVisible_editPrefer_4 = false
-    //       this.dialogFormVisible_editPrefer = false
-    //       this.$message({ message: '修改成功！', type: 'success' })
-    //       location.reload()
-    //     }
-    //   })
-    // },
-    // editPreferValue() {
-    //   // console.log(this.prefer_type)
-    //   if (this.prefer_type === '1') {
-    //     this.dialogFormVisible_editPrefer_1 = true
-    //   }
-    //   if (this.prefer_type === '2') {
-    //     this.dialogFormVisible_editPrefer_2 = true
-    //   }
-    //   if (this.prefer_type === '3') {
-    //     this.dialogFormVisible_editPrefer_3 = true
-    //   }
-    //   if (this.prefer_type === '4') {
-    //     this.dialogFormVisible_editPrefer_4 = true
-    //   }
-    // },
-    // async workdays() {
-    //   // eslint-disable-next-line no-empty
-    //   for (let i = 1; i < 8; i++) {
-    //     const emp_pre = await axios.get('/empPrefer/' + this.token_emp_id)
-    //     // eslint-disable-next-line no-sequences
-    //     console.log(emp_pre.data.data[0])
-    //     this.emp_id = emp_pre.data.data[0].empId
-    //   }
-    // },
-    // editPrefer() {
-    //   this.dialogFormVisible_editPrefer = true
-    // },
     async aboutEmp() {
       const emp_pre = await axios.get('/empPrefer/' + this.token_emp_id)
       console.log(emp_pre)
-      if(emp_pre.data.data == null){
+      this.empId = emp_pre.data.data[0].empId
+      // eslint-disable-next-line no-unused-vars
+      // let emp_pre_preferType = null
+      if (emp_pre.data.data === null) {
         alert('当前员工没有偏好！')
         return
       }
       this.dialogFormVisible_aboutPrefer = true
-      this.empId = emp_pre.data.data[0].empId
-      // eslint-disable-next-line no-unused-vars
-      // let emp_pre_preferType = null
       for (let i = 0; i < 4; i++) {
         this.emp_pre_preferType = emp_pre.data.data[i].preferType
         this.emp_pre_preferValue = emp_pre.data.data[i].preferValue
@@ -602,43 +625,6 @@ export default {
           this.everyWeekTime = this.emp_pre_preferValue
         }
       }
-      //   // console.log(11111))
-      // 类型一
-      // if (emp_pre.data.data[0].preferType === 1) {
-      //   // console.log(11111)
-      //   // const val = 1
-      //   // console.log(val.toString())
-      //   this.dialogFormVisible_1 = true
-      //   this.prefer_type_1 = '工作日偏好'
-      //   // this.prefer_value_1
-      //   // this.prefer_value_1_1
-      //   // emp_pre.data.data[0].preferValue.split(',')
-      //   const index = emp_pre.data.data[0].preferValue.split(',')
-      //   this.prefer_value_1 = this.week[index[0]]
-      //   this.prefer_value_1_1 = this.week[index[1]]
-      // }
-      // // 类型二
-      // if (emp_pre.data.data[0].preferType === 2) {
-      //   this.dialogFormVisible_2 = true
-      //   this.prefer_type_2 = '工作时长偏好'
-      //   const time = emp_pre.data.data[0].preferValue.split('-')
-      //   this.prefer_value_2 = time[0]
-      //   this.prefer_value_2_1 = time[1]
-      // }
-      // // 类型三
-      // if (emp_pre.data.data[0].preferType === 3) {
-      //   this.dialogFormVisible_3 = true
-      //   this.prefer_type_3 = '班次时长偏好（每天）'
-      //   this.prefer_value_3 = emp_pre.data.data[0].preferValue
-      // }
-      // // 类型三
-      // if (emp_pre.data.data[0].preferType === 4) {
-      //   this.dialogFormVisible_4 = true
-      //   this.prefer_type_4 = '班次时长偏好（每周）'
-      //   this.prefer_value_4 = emp_pre.data.data[0].preferValue
-      // }
-      // console.log()
-      // if(emp_pre.data.data.preferType)
     },
     sureEdit() {
       const mess = axios.put('/rule', {
@@ -649,7 +635,10 @@ export default {
         offShopNumTwo: this.offShopNumTwo2,
         preNeedTime: this.preNeedTime2,
         predictNum: this.predictNum2,
-        startNeedPeoNum: this.startNeedPeoNum2
+        startNeedPeoNum: this.startNeedPeoNum2,
+        startShopEmp: this.startShopEmp2,
+        endShopEmp: this.endShopEmp2,
+        routineEmp: this.routineEmp2
       })
       mess.then((res) => {
         if (res.data.flag) {
@@ -675,9 +664,15 @@ export default {
       this.preNeedTime2 = this.preNeedTime
       this.predictNum2 = this.predictNum
       this.startNeedPeoNum2 = this.startNeedPeoNum
+      this.startShopEmp2 = this.startShopEmp
+      this.endShopEmp2 = this.endShopEmp
+      this.routineEmp2 = this.routineEmp
     },
     async aboutStore() {
       this.dialogFormVisible_aboutStore = true
+      if (this.user.position !== '店长') {
+        this.ifStore = false
+      }
       const test = await axios.get('/rule/' + this.tokenShopID)
       console.log(test)
       this.shopId = test.data.data.shopId
@@ -688,6 +683,9 @@ export default {
       this.preNeedTime = test.data.data.preNeedTime
       this.predictNum = test.data.data.predictNum
       this.startNeedPeoNum = test.data.data.startNeedPeoNum
+      this.startShopEmp = test.data.data.startShopEmp
+      this.endShopEmp = test.data.data.endShopEmp
+      this.routineEmp = test.data.data.routineEmp
       // this.shopId = res.data.shopId
       // console.log(res.data)
       // console.log(shopId)
@@ -695,6 +693,38 @@ export default {
     },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
+    },
+    showPrivacy() {
+      this.dialogFormVisible_privacy = true
+    },
+    editPerson() {
+      this.dialogFormVisible_edit = true
+      this.ID_edit = this.user.ID
+      this.name_edit = this.user.name
+      this.password_edit = this.user.password
+      this.shopId_edit = this.user.shopId
+      this.email_edit = this.user.email
+      this.position_edit = this.user.position
+    },
+    sureEditPrivacy() {
+      const suc = axios.put('/emp', {
+        name: this.name_edit,
+        password: this.password_edit, // 待修改
+        position: this.position_edit,
+        shopId: this.shopId_edit,
+        email: this.email_edit,
+        ID: this.ID_edit
+      })
+      suc.then((res) => {
+        if (res.data.flag) {
+          this.dialogFormVisible_edit = false
+          this.$message({ message: '修改成功！', type: 'success' })
+          location.reload()
+        }
+      })
+    },
+    showLogo() {
+      this.dialogFormVisible_logo = true
     }
     // async logout() {
     //   await this.$store.dispatch('user/logout')
@@ -757,17 +787,25 @@ export default {
     }
 
     .avatar-container {
+      margin-top: 5px;
       margin-right: 30px;
+      height: 40px;
+      width: 40px;
+      background-color: #F6FAFD ;
+      border-radius: 40px;
 
       .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+        margin-top: -12.5px;
+        margin-left: -20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 40px;
 
         .user-avatar {
           cursor: pointer;
           width: 40px;
           height: 40px;
-          border-radius: 10px;
+          border-radius: 40px;
         }
 
         .el-icon-caret-bottom {
@@ -782,3 +820,4 @@ export default {
   }
 }
 </style>
+

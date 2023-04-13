@@ -10,7 +10,7 @@
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
-    background-color: $menuBg;
+    background-color: #F6FAFD;
     height: 100%;
     position: fixed;
     font-size: 0px;
@@ -72,21 +72,28 @@
     .submenu-title-noDropdown,
     .el-submenu__title {
       &:hover {
-        background-color: $menuHover !important;
-      }
+        background-color: rgb(220,227,235) !important;
+        border-bottom: 2px solid #00DDDD;
+      };
+      border-radius: 20px;
+      font-weight: 900;
     }
 
     .is-active>.el-submenu__title {
-      color: $subMenuActiveText !important;
+      color: rgb(64,158,255) !important;
+      border-radius: 20px;
     }
 
     & .nest-menu .el-submenu>.el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
+      background-color: #F6FAFD !important;
+      border-radius: 10px;
+      font-weight: 900;
 
       &:hover {
-        background-color: $subMenuHover !important;
+        background-color: rgb(220,227,235) !important;
+        border-bottom: 2px solid #00DDDD;
       }
     }
   }

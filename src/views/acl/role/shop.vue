@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #F6FAFD; border-radius: 30px;margin-top: 10px">
     <el-form inline>
       <el-form-item>
         <el-input v-model="inputid" placeholder="门店相关信息" />
@@ -90,6 +90,7 @@
 
 export default {
   name: 'Store',
+  props:["shopid_"],
   data() {
     return {
       dialogFormVisible: false,

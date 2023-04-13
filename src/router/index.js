@@ -66,42 +66,44 @@ export const constantRoutes = [
     ]
   },
   {
-    path:'/change',
-    show:true,
+    path: '/change',
+    show: true,
     component: Layout,
     redirect: '/change/me',
     meta: {
       title: '交换管理',
       icon: 'el-icon-lock'
     },
-    children:[
-      {
-        path:'me',
-        show: true,
-        component: ()=> import('@/views/change/one'),
-        meta: { title: '向别人申请' }
-      },
-      {
-        path:'other',
-        show: true,
-        component: ()=> import('@/views/change/two'),
-        meta: { title: '别人向我申请'}
-      }
-    ]
-  },
-  {
-    path: '/user',
-    show: true,
-    component: Layout,
     children: [
       {
-        path: 'user',
-        name: 'user',
-        component: () => import('@/views/User/index'),
-        meta: { title: '个人信息', icon: 'el-icon-goods' }
+        path: 'me',
+        show: true,
+        component: () => import('@/views/change/one'),
+        meta: { title: '向别人申请',
+          icon: 'el-icon-lock'
+        }
+      },
+      {
+        path: 'other',
+        show: true,
+        component: () => import('@/views/change/two'),
+        meta: { title: '别人向我申请', icon: 'el-icon-lock' }
       }
     ]
   },
+  // {
+  //   path: '/user',
+  //   show: true,
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'user',
+  //       name: 'user',
+  //       component: () => import('@/views/User/index'),
+  //       meta: { title: '个人信息', icon: 'el-icon-goods' }
+  //     }
+  //   ]
+  // },
 
   {
     name: 'Acl',
@@ -110,7 +112,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/acl/user/list',
     meta: {
-      title: '权限管理',
+      title: '信息管理',
       icon: 'el-icon-lock'
     },
     children: [
@@ -120,7 +122,7 @@ export const constantRoutes = [
         show: true,
         component: () => import('@/views/acl/user/list'),
         meta: {
-          title: '用户管理'
+          title: '员工管理', icon: 'el-icon-lock'
         }
       },
       {
@@ -138,13 +140,25 @@ export const constantRoutes = [
         component: () => import('@/views/acl/role/shop'),
         meta: {
           activeMenu: '/acl/role/list',
-          title: '角色授权'
+          title: '门店管理', icon: 'el-icon-lock'
         },
         hidden: true
       }
     ]
   },
-
+  {
+    path: '/time',
+    show: true,
+    component: Layout,
+    children: [
+      {
+        path: 'time',
+        name: 'time',
+        component: () => import('@/views/time/time'),
+        meta: { title: '工时', icon: 'el-icon-goods' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -164,10 +178,10 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-const pathArr = ['/home/date','/acl','/user','/acl/user/list','/acl/role/list','/user/user']
+const pathArr = ['/home/date','/acl','/user','/acl/user/list','/acl/role/list','/user/user','/time','/change','/change/me']
 
-router.beforeEach(function(to,from,next){
-  if(pathArr.indexOf(to.path) !== -1){
+router.beforeEach(function(to, from, next) {
+  if (pathArr.indexOf(to.path) !== -1) {
     const token = localStorage.getItem('token')
     if (token) {
       next()

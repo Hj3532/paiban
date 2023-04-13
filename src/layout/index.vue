@@ -6,7 +6,7 @@
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
       </div>
-      <app-main />
+      <app-main :shop="shopid"/>
     </div>
   </div>
 </template>
@@ -17,6 +17,11 @@ import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
+  data(){
+    return {
+      shopid:'',
+    }
+  },
   components: {
     Navbar,
     Sidebar,
@@ -46,6 +51,12 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
+  },
+  async created(){
+    const token = localStorage.getItem('token')
+    const { data: res } = await this.$http.get('/emp/' + token)
+    console.log("app",res.data.shopId);
+    this.shopid = res.data.shopId
   }
 }
 </script>

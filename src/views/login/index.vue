@@ -1,5 +1,7 @@
 <template>
-  <div class="login-container">
+  <div
+    class="login-container"
+  >
     <!--el-form组件： elementUI插件里面的一个组件，经常展示表单元素  model： 用于收集表单数据 rules： 表单验证规则-->
     <el-form
       ref="loginForm"
@@ -9,13 +11,13 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">登录</h3>
+        <h3 class="title">LOGIN</h3>
       </div>
 
       <el-form-item prop="username">
-        <!-- <span class="svg-container">
+        <span class="svg-container">
           <svg-icon icon-class="user" />
-        </span> -->
+        </span>
         <el-input
           ref="username"
           v-model="loginFrom.username"
@@ -28,9 +30,9 @@
       </el-form-item>
 
       <el-form-item prop="password">
-        <!-- <span class="svg-container">
+        <span class="svg-container">
           <svg-icon icon-class="password" />
-        </span> -->
+        </span>
         <el-input
           ref="password"
           v-model="loginFrom.password"
@@ -43,11 +45,11 @@
       </el-form-item>
 
       <el-button
-        type="primary"
-        style="width: 100%; margin-bottom: 30px"
+        style="width: 50%; margin-bottom: 30px;margin-left: 110px;border-radius: 30px;color:white;
+         background-color: rgba(255,255,255,0.1);box-shadow: 5px 5px 0 0  rgba(0,0,0,0.2);"
         @click.native.prevent="login"
       >登录</el-button>
-      <router-link to="/register" class="reg">没有账号去注册</router-link>
+      <!--      <router-link to="/register" class="reg">没有账号去注册</router-link>-->
     </el-form>
   </div>
 </template>
@@ -106,30 +108,35 @@ $cursor: #fff;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 93.2%;
+    margin-top: 3px;
 
     input {
       background: transparent;
       border: 0;
       //-webkit-appearance: none;
       border-radius: 0;
-      padding: 12px 5px 12px 15px;
+      padding: 12px 5px 12px 25px;
       color: $light_gray;
-      height: 47px;
+      height: 55px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
+        -webkit-transition-delay: 99999s;
+        -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
       }
     }
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 450px;
+    height: 65px;
     background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 95px;
     color: #454545;
+    margin-top: -10px;
   }
 }
 </style>
@@ -142,7 +149,8 @@ $light_gray: #eee;
 .login-container {
   height: 100vh;
   width: 100%;
-  background-color: $bg;
+  background: url(~@/views/login/LoginBackground.jpg);
+  background-size: 100% 100%;
   overflow: hidden;
 }
 .login-form {
@@ -150,8 +158,11 @@ $light_gray: #eee;
   width: 520px;
   max-width: 100%;
   padding: 160px 35px 0;
-  margin: 0 auto;
   overflow: hidden;
+  box-shadow: 5px 5px 0 0  rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.1);
+  margin: 100px auto 0;
+  border-radius: 90px;
 }
 
 .tips {
