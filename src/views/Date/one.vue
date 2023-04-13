@@ -452,6 +452,9 @@ export default {
        this.roomValue = this.shopid_
        this.getinfo()
        this.getemp()
+       setTimeout(()=>{
+        this.show()
+       },1000)
     }, 1000)
   },
   mounted() {
