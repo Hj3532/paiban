@@ -72,7 +72,7 @@ export const constantRoutes = [
     redirect: '/change/me',
     meta: {
       title: '交换管理',
-      icon: 'el-icon-lock'
+      icon: 'el-icon-sort'
     },
     children: [
       {
@@ -80,14 +80,14 @@ export const constantRoutes = [
         show: true,
         component: () => import('@/views/change/one'),
         meta: { title: '向别人申请',
-          icon: 'el-icon-lock'
+          icon: 'el-icon-sort-up'
         }
       },
       {
         path: 'other',
         show: true,
         component: () => import('@/views/change/two'),
-        meta: { title: '别人向我申请', icon: 'el-icon-lock' }
+        meta: { title: '别人向我申请', icon: 'el-icon-sort-down' }
       }
     ]
   },
@@ -122,7 +122,7 @@ export const constantRoutes = [
         show: true,
         component: () => import('@/views/acl/user/list'),
         meta: {
-          title: '员工管理', icon: 'el-icon-lock'
+          title: '员工管理', icon: 'el-icon-s-custom'
         }
       },
       {
@@ -155,7 +155,7 @@ export const constantRoutes = [
         path: 'time',
         name: 'time',
         component: () => import('@/views/time/time'),
-        meta: { title: '工时', icon: 'el-icon-goods' }
+        meta: { title: '工时', icon: 'el-icon-s-flag' }
       }
     ]
   },
@@ -178,7 +178,7 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-const pathArr = ['/home/date','/acl','/user','/acl/user/list','/acl/role/list','/user/user','/time','/change','/change/me']
+const pathArr = ['/home/date', '/acl', '/user', '/acl/user/list', '/acl/role/list', '/user/user', '/time', '/change', '/change/me']
 
 router.beforeEach(function(to, from, next) {
   if (pathArr.indexOf(to.path) !== -1) {

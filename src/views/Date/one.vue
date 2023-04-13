@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card style="background-color: #F6FAFD; border-radius: 20px;margin-top: 10px">
     <!-- 选择门店start -->
     <!--
            v-model的值为当前被选中的el-option的 value 属性值
@@ -93,20 +93,20 @@
     <div>
       <div class="button">
         <el-button
-          icon="el-icon-edit"
           v-if="!daochu"
+          icon="el-icon-edit"
           style="border-width: 1.5px; margin-right: 4px"
           @click="addNewInfo()"
         >新增</el-button>
         <el-button
-          icon="el-icon-search"
           v-if="!daochu"
+          icon="el-icon-search"
           style="border-width: 1.5px; margin-right: 4px"
           @click="search"
         >查询</el-button>
         <el-button
-          icon="el-icon-search"
           v-if="!daochu"
+          icon="el-icon-search"
           style="border-width: 1.5px; margin-right: 4px"
           @click="change1"
         >交换</el-button>
@@ -115,6 +115,82 @@
       </div>
     </div>
     <!-- 按钮合集end -->
+
+    <!-- 新增的dialog start -->
+    <!-- <el-dialog
+      title="新增需要的班次"
+      :visible.sync="dialogVisible"
+      :before-close="close"
+      width="40%"
+    >
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="100px"
+        size="small"
+        class="demo-ruleForm"
+      >
+        <el-form-item label="工作日期" required>
+          <el-col :span="10">
+            <el-form-item prop="date" style="margin-bottom: 0">
+              <el-date-picker
+                v-model="form.date"
+                type="date"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="工作时间" required>
+          <el-col :span="10">
+            <el-form-item prop="startTime" style="margin-bottom: 0">
+              <el-time-select
+                v-model="form.startTime"
+                placeholder="开始时间"
+                :picker-options="{
+                  start: '08:00',
+                  step: '01:00',
+                  end: '24:00 ',
+                }"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col
+            class="line"
+            :span="1"
+            style="text-align: center; color: darkgray"
+          >
+            —
+          </el-col>
+          <el-col :span="10">
+            <el-form-item prop="endTime" style="margin-bottom: 0">
+              <el-time-select
+                v-model="form.endTime"
+                placeholder="结束时间"
+                :picker-options="{
+                  start: '08:00',
+                  step: '01:00',
+                  end: '24:00 ',
+                  minTime: form.startTime,
+                }"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button @click="resetForm('form')">取消</el-button>
+          <el-button type="primary" @click="submitForm('form')">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog> -->
+    <!-- 新增的dialog end -->
 
     <!-- 新增的dialog start -->
     <el-dialog
@@ -233,7 +309,7 @@
                 v-if="isshow"
                 style="
                   display: block;
-                  width:100px;
+                  width: 100px;
                   height: 20px;
                   text-align: center;
                   line-height: 20px;
@@ -305,7 +381,6 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 
-let IDD = 0
 const clickCount = 0
 let change_ = 0
 let flag = 0
@@ -447,14 +522,13 @@ export default {
   },
   // created时就发自动安排的请求
   async created() {
-    
     setTimeout(async() => {
-       this.roomValue = this.shopid_
-       this.getinfo()
-       this.getemp()
-       setTimeout(()=>{
+      this.roomValue = this.shopid_
+      this.getinfo()
+      this.getemp()
+      setTimeout(() => {
         this.show()
-       },1000)
+      }, 1000)
     }, 1000)
   },
   mounted() {
@@ -702,34 +776,51 @@ export default {
         }
       }
     },
+    // 新增班次表单的显示与隐藏
+    addNewInfo() {
+      this.dialogVisible = true
+    },
     // 新增班次提交数据
-    submitForm() {
+    async submitForm() {
       // 上交日历的配置项events
       const { startTime, endTime, date } = this.form
-      const newhours = parseInt(endTime) - parseInt(startTime)
+      const newhours = parseInt(endTime) - parseInt(startTime) + '.0'
       const newstartTime = startTime + ':00'
       const newendTime = endTime + ':00'
-      const newdate = date + 'T16'
-      const dayid = 0
-      console.log(parseInt(endTime) - parseInt(startTime))
-      console.log(endTime + ':00')
-      console.log(startTime + ':00')
-      console.log(date + 'T16')
+      console.log(newhours)
+      console.log(newstartTime)
+      console.log(newendTime)
+      console.log(date)
+
       // 上交服务器
-      const sub = axios.post(`/addClazz/${this.value}/${dayid}`, {
+      const newValue = JSON.stringify({
         startTime: newstartTime,
         endTime: newendTime,
-        date: newdate,
-        hours: newhours
+        date: date,
+        hours: newhours,
+        lastIsUsed: 0.0
       })
-      sub.then((res) => {
-        if (res.data.flag) {
-          this.dialogVisible = false
-          this.$message({ message: '新增班次成功！', type: 'success' })
-          this.show() // 重新加载数据
-          location.reload() // 刷新页面
+      const customConfig = {
+        headers: {
+          'Content-Type': 'application/json'
         }
+      }
+      this.$message({
+        message: '正在匹配最佳员工人选中...',
+        type: 'info'
       })
+      const sub = await this.$http.post(
+        `/schedule/addClazz/${this.value}`,
+        newValue,
+        customConfig
+      )
+      console.log(sub.data)
+      if (sub.data.flag) {
+        this.dialogVisible = false
+        this.$message({ message: '新增班次成功！', type: 'success' })
+        location.reload() // 刷新页面
+        this.show() // 重新自动排班
+      }
     },
 
     // 新增班次取消按钮
@@ -746,17 +837,19 @@ export default {
 
     // 删除排班信息事件
     async deleteinfo(info) {
-      this.visible = false
-      this.$message({
-        message: '删除成功',
-        type: 'success'
-      })
+      this.dialogVisible = false
+      this.$message({ message: '正在删除中，请等待...', type: 'info' })
       const a = await this.$http.delete(
         `/schedule/${this.value}/${info.dayId}/${info.clazzId}`
       )
-      this.show() // 重新加载数据
-      // location.reload(); //刷新页面
+      if (a.data.flag) {
+        // this.dialogVisible = false;
+        this.$message({ message: '删除班次成功！', type: 'success' })
+        location.reload() // 刷新页面
+        this.show() // 重新自动排班
+      }
     },
+
     // 指派功能开始(新增，与小黄版本不同)
     async select(info) {
       console.log(info)
@@ -818,10 +911,16 @@ export default {
     // 点击切换门店事件
     changeRoom(index) {
       this.all_.splice(0, this.all_.length)
-      this.calendarOptions.resources.splice(0, this.calendarOptions.resources.length)
+      this.calendarOptions.resources.splice(
+        0,
+        this.calendarOptions.resources.length
+      )
       this.clear()
       this.getinfo()
       this.getemp()
+      setTimeout(() => {
+        this.show()
+      }, 1000)
     },
 
     //
@@ -860,7 +959,9 @@ export default {
     show() {
       this.clear()
       this.calendarOptions.events.splice(0, this.calendarOptions.events.length)
-      const star = dayjs(this.calendarApi.view.activeStart).format('YYYY-MM-DD ')
+      const star = dayjs(this.calendarApi.view.activeStart).format(
+        'YYYY-MM-DD '
+      )
       const end = dayjs(this.calendarApi.view.activeEnd).format('YYYY-MM-DD ')
       console.log(star + '' + end)
       for (let i = 0; i < this.all_.length; i++) {
@@ -1096,7 +1197,7 @@ p {
   height: 20px;
   line-height: 20px;
 }
-.fc-scrollgrid-section>th:first-child {
+.fc-scrollgrid-section > th:first-child {
   width: 100px;
 }
 </style>

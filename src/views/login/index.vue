@@ -149,7 +149,7 @@ $light_gray: #eee;
 .login-container {
   height: 100vh;
   width: 100%;
-  background: url(~@/views/login/LoginBackground.jpg);
+  background: url(~@/views/login/LoginBackgroundnew.jpg);
   background-size: 100% 100%;
   overflow: hidden;
 }
