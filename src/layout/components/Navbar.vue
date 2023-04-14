@@ -598,7 +598,9 @@ export default {
           this.dialogFormVisible_aboutPrefer = false
           this.dialogFormVisible_editPrefer = false
           this.$message({ message: '修改成功！', type: 'success' })
-          location.reload()
+          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(()=>{
+            location.reload()
+          })
         }
       })
     },
@@ -675,7 +677,10 @@ export default {
         if (res.data.flag) {
           this.dialogFormVisible1 = false
           this.$message({ message: '修改成功！', type: 'success' })
-          location.reload()
+          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(()=>{
+            location.reload()
+          })
+          // location.reload()
         }
       })
       this.dialogFormVisible_aboutStore = false

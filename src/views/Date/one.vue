@@ -595,6 +595,7 @@ export default {
         this.ntitle()
         this.calendarApi.prev()
         this.daochu = true
+        this.show()
         this.flag = 1
       } else {
         this.lab = true
@@ -961,6 +962,7 @@ export default {
     //  一键自动排班触发事件
     show() {
       this.clear()
+      this.jobValue = ''
       this.calendarOptions.events.splice(0, this.calendarOptions.events.length)
       const star = dayjs(this.calendarApi.view.activeStart).format(
         'YYYY-MM-DD '
@@ -997,10 +999,11 @@ export default {
         }
       } else {
         console.log('111')
-        this.clear()
-        this.calendarOptions.events = this.calendarOptions.events.concat(
-          this.old
-        )
+        // this.clear()
+        // this.calendarOptions.events = this.calendarOptions.events.concat(
+        //   this.old
+        // )
+        this.show()
       }
     },
 
