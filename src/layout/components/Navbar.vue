@@ -24,7 +24,12 @@
           个人信息
           <h1 style="font-size: 0.175em">ID、姓名、邮箱等</h1>
         </el-button>
-        <el-button icon="el-icon-s-tools" style="width: 150px;height:150px;border-radius: 60px;margin-left: 45px;margin-top: 40px" @click="aboutStore">
+        <el-button
+          icon="el-icon-s-tools"
+          style="width: 150px;height:150px;
+        border-radius: 60px;margin-left: 45px;margin-top: 40px"
+          @click="aboutStore"
+        >
           关于门店规则
           <h1 style="font-size: 0.175em">客流量、准备时间等</h1>
         </el-button>
@@ -40,6 +45,9 @@
       <el-form style="width: 90%">
         <el-form-item label="门店ID" label-width="260px">
           <el-input v-model="shopId" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="门店排班方式" label-width="260px">
+          <el-input v-model="ways" autocomplete="off" readonly="readonly" />
         </el-form-item>
         <el-form-item label="没有客流量时需要人数" label-width="260px">
           <el-input v-model="defaultNum" autocomplete="off" readonly="readonly" />
@@ -73,7 +81,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" icon="el-icon-edit" v-if="ifStore" @click="editStoreRule">修 改</el-button>
+        <el-button v-if="ifStore" type="primary" icon="el-icon-edit" @click="editStoreRule">修 改</el-button>
         <el-button @click="dialogFormVisible_aboutStore = false">关 闭</el-button>
       </div>
     </el-dialog>
@@ -82,6 +90,17 @@
       <el-form style="width: 100%">
         <el-form-item label="门店ID" label-width="260px">
           <el-input v-model="shopId2" autocomplete="off" readonly="readonly" />
+        </el-form-item>
+        <el-form-item label="门店排班方式" label-width="260px">
+          <!--          <el-input v-model="ways2" autocomplete="off" readonly="readonly" />-->
+          <el-select v-model="ways2">
+            <el-option
+              v-for="item in option_ways"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="没有客流量时需要人数" label-width="260px">
           <el-input v-model="defaultNum2" autocomplete="off" />
@@ -456,7 +475,17 @@ export default {
       dialogFormVisible_aboutStore: false,
       dialogFormVisible_editStore: false,
       dialogFormVisible_tipEdit: false,
+      // 排班方式
+      option_ways: [{
+        value: '1',
+        label: '单人排班'
+      },
+      {
+        value: '2',
+        label: '多人排班'
+      }],
       shopId: '',
+      ways: '', // 排班方式
       defaultNum: '',
       endNeedTime: '',
       offShopNumOne: '',
@@ -470,6 +499,7 @@ export default {
       //
       //
       shopId2: '',
+      ways2: '',
       defaultNum2: '',
       endNeedTime2: '',
       offShopNumOne2: '',
@@ -629,6 +659,7 @@ export default {
     sureEdit() {
       const mess = axios.put('/rule', {
         shopId: this.shopId2,
+        status: this.ways2,
         defaultNum: this.defaultNum2,
         endNeedTime: this.endNeedTime2,
         offShopNumOne: this.offShopNumOne2,
@@ -657,6 +688,7 @@ export default {
     editStoreRule() {
       this.dialogFormVisible_editStore = true
       this.shopId2 = this.shopId
+      this.ways2 = this.ways
       this.defaultNum2 = this.defaultNum
       this.endNeedTime2 = this.endNeedTime
       this.offShopNumOne2 = this.offShopNumOne
@@ -676,6 +708,12 @@ export default {
       const test = await axios.get('/rule/' + this.tokenShopID)
       console.log(test)
       this.shopId = test.data.data.shopId
+      if (test.data.data.status === 1) {
+        this.ways = '单人排班'
+      } else {
+        this.ways = '多人排班'
+      }
+      // this.ways = test.data.data.status
       this.defaultNum = test.data.data.defaultNum
       this.endNeedTime = test.data.data.endNeedTime
       this.offShopNumOne = test.data.data.offShopNumOne

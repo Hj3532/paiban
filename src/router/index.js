@@ -131,19 +131,19 @@ export const constantRoutes = [
         show: true,
         component: () => import('@/views/acl/role/list'),
         meta: {
-          title: '角色管理'
+          title: '门店管理', icon: 'el-icon-s-custom'
         }
-      },
-      {
-        name: 'RoleShop',
-        path: 'role/shop',
-        component: () => import('@/views/acl/role/shop'),
-        meta: {
-          activeMenu: '/acl/role/list',
-          title: '门店管理', icon: 'el-icon-lock'
-        },
-        hidden: true
       }
+      // {
+      //   name: 'RoleShop',
+      //   path: 'role/shop',
+      //   component: () => import('@/views/acl/role/shop'),
+      //   meta: {
+      //     activeMenu: '/acl/role/list',
+      //     title: '门店管理', icon: 'el-icon-lock'
+      //   },
+      //   hidden: true
+      // }
     ]
   },
   {

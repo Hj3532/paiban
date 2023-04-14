@@ -198,6 +198,7 @@
 import axios from 'axios'
 import { getEmployeeList } from '@/api/employee'
 import { searchEmployee } from '@/api/searchemployee'
+import {getAllEmployeeList} from "@/api/allemployee";
 // import { searchEmployee } from '@/api/searchemployee'
 export default {
   name: 'AclUserList',
@@ -205,6 +206,7 @@ export default {
   props:["shopid_"],
   data() {
     return {
+      tokenPosition: '',
       options: [
         {
           value: '普通员工',
@@ -266,6 +268,7 @@ export default {
     const token = localStorage.getItem('token')
     const { data: res } = await this.$http.get('/emp/' + token)
     this.tokenShopID = res.data.shopId
+    this.tokenPosition = res.data.position
     // this.getData(this.pagesize, this.currentPage)
     this.fetchData()
   },
@@ -276,7 +279,12 @@ export default {
     // },
     async fetchData() {
       // this.page = pager
-      const employeeDate = await getEmployeeList(this.tokenShopID, this.page, this.limit)
+      let employeeDate = null
+      if (this.tokenPosition === '超级管理员') {
+        employeeDate = await getAllEmployeeList(this.page, this.limit)
+      } else {
+        employeeDate = await getEmployeeList(this.tokenShopID, this.page, this.limit)
+      }
       // console.log(employeeDate)
       if (employeeDate.flag) {
         this.total = employeeDate.data.total

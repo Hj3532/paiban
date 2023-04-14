@@ -63,7 +63,7 @@
           class="timecontent"
           style="text-align: center; border-bottom: 1.5px solid #00a4ff"
         >
-          <h5 v-if="lab" >周一 ~ 周日</h5>
+          <h5 v-if="lab">周一 ~ 周日</h5>
           <p>{{ title }}</p>
         </div>
         <!-- 右 -->
@@ -77,13 +77,6 @@
           icon="el-icon-arrow-right"
           @click="next"
         />
-        <div style="float: right">
-          <el-button
-            v-if="daochu"
-            style="color: #00a4ff; font-size: 12px; cursor: pointer"
-            @click="port"
-          >导出</el-button>
-        </div>
       </div>
       <!-- 时间轮播栏end -->
     </div>
@@ -92,6 +85,11 @@
     <!-- 按钮合集start -->
     <div>
       <div class="button">
+        <el-button
+          v-if="daochu"
+          style="color: #00a4ff; font-size: 14px; border-radius: 20px;width: 120px;"
+          @click="port"
+        >导出</el-button>
         <el-button
           v-if="!daochu"
           icon="el-icon-edit"
@@ -110,7 +108,7 @@
           style="border-width: 1.5px; margin-right: 4px;border-radius: 20px"
           @click="change1"
         >交换</el-button>
-        <el-button icon="el-icon-search" @click="exchange" v-if="btn" style="border-radius: 20px">切换视图</el-button>
+        <el-button v-if="btn" icon="el-icon-search" style="border-radius: 20px" @click="exchange">切换视图</el-button>
         <el-button type="primary" circle @click="show">排</el-button>
       </div>
     </div>
@@ -228,10 +226,10 @@
                 v-model="form.startTime"
                 placeholder="开始时间"
                 :picker-options="{
-                    start: '08:00',
-                    step: '01:00',
-                    end: '24:00 ',
-                  }"
+                  start: '08:00',
+                  step: '01:00',
+                  end: '24:00 ',
+                }"
                 style="width: 100%"
               />
             </el-form-item>
@@ -249,11 +247,11 @@
                 v-model="form.endTime"
                 placeholder="结束时间"
                 :picker-options="{
-                    start: '08:00',
-                    step: '01:00',
-                    end: '24:00 ',
-                    minTime: form.startTime,
-                  }"
+                  start: '08:00',
+                  step: '01:00',
+                  end: '24:00 ',
+                  minTime: form.startTime,
+                }"
                 style="width: 100%"
               />
             </el-form-item>
@@ -305,16 +303,16 @@
               删除
             </el-button>
             <div slot="reference" class="popper-content">
-                <span
-                  v-if="isshow"
-                  style="
+              <span
+                v-if="isshow"
+                style="
                     display: block;
                     width: 100px;
                     height: 20px;
                     text-align: center;
                     line-height: 20px;
                   "
-                >{{ arg.timeText }}</span>
+              >{{ arg.timeText }}</span>
               <span ref="aaa">{{ arg.event.title }}</span>
               <span
                 v-if="isshow"
@@ -383,7 +381,6 @@ import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 
 const clickCount = 0
 let change_ = 0
-let flag = 0
 const prev = '' // 上一次点击的dom节点
 export default {
   components: {
@@ -392,8 +389,9 @@ export default {
   props: ['shopid_'],
   data() {
     return {
-      btn:false,
-      lab:true,
+      flag: 0,
+      btn: false,
+      lab: true,
       daochu: false,
       day_: -2,
       dayid: '',
@@ -514,7 +512,6 @@ export default {
         // eventColor: "#f08f00",
         allDayText: '全天',
         dateClick: this.handleDateClick,
-        schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
         // 切换视图调用的方法
         datesSet() {}
       },
@@ -549,9 +546,9 @@ export default {
 
   methods: {
     port() {
-      const day1= dayjs('2023-05-10')
-      const day2=dayjs(this.calendarApi.view.activeStart)
-      let c = day2.diff(day1,'day')
+      const day1 = dayjs('2023-05-10')
+      const day2 = dayjs(this.calendarApi.view.activeStart)
+      const c = day2.diff(day1, 'day')
       if (c >= 0) {
         this.$http
           .get('/schedule/getScheduleByName/' + this.roomValue + '/' + c)
@@ -590,7 +587,7 @@ export default {
       this.calendarApi.refetchResources()
     },
     exchange() {
-      if (flag === 0) {
+      if (this.flag === 0) {
         this.isshow = false
         this.calendarApi.changeView('resourceTimelineDay')
         this.title = this.calendarApi.view?.title
@@ -598,9 +595,10 @@ export default {
         this.ntitle()
         this.calendarApi.prev()
         this.daochu = true
-        flag = 1
+        this.flag = 1
       } else {
         this.lab = true
+        this.btn = false
         this.calendarApi.changeView('timeGridWeek')
         this.title = this.calendarApi.view?.title
         this.ptitle()
@@ -608,7 +606,7 @@ export default {
         this.calendarApi.prev()
         this.daochu = false
         this.show()
-        flag = 0
+        this.flag = 0
       }
     },
     async getinfo() {
@@ -671,9 +669,7 @@ export default {
                   dayjs(b[i][j].date).format('YYYY-MM-DD') +
                   ' ' +
                   b[i][j].startTime,
-                end:
-                  dayjs(b[i][j].date).format('YYYY-MM-DD') + ' ' + b[i][j].endTime,
-                dayId: b[i][j].dayId,
+                end: end_,
                 index: m,
                 clazzForEmpId: b[i][j].clazzForEmpList[m].clazzForEmpId,
                 clazzId: b[i][j].clazzId,
@@ -1069,15 +1065,20 @@ export default {
     },
     week() {
       this.isshow = false
+      this.btn = false
+      this.lab = true
       this.calendarApi.changeView('timeGridWeek')
       // this.calendarApi.today();
       this.title = this.calendarApi.view?.title
       this.ptitle()
       this.ntitle()
       this.calendarApi.prev()
+      this.show()
     },
     day() {
       this.isshow = true
+      this.btn = true
+      this.lab = false
       this.calendarApi.changeView('timeGridDay')
       // this.calendarApi.today();
       this.title = this.calendarApi.view?.title
@@ -1211,4 +1212,3 @@ p {
   width: 100px;
 }
 </style>
-
