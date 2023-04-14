@@ -1,14 +1,25 @@
 <!-- 自己向别人申请 -->
 <template>
   <el-table :data="msg" border style="background-color: #F6FAFD; border-radius: 20px;margin-top: 10px">
-    <el-table-column prop="data" label="全部信息" align="center"/>
-    <el-table-column prop="status" label="状态" align="center"/>
+    <el-table-column prop="data" label="全部信息" align="center" width="700px">
+      <template slot-scope="scope">
+        申请将 <span style="color: red">{{ scope.row.data[scope.$index].exchangeDate }}</span>&nbsp;日
+        <span style="color: red">{{ scope.row.data[scope.$index].exchangeStartTime }}</span> &nbsp;到
+        <span style="color: red">{{ scope.row.data[scope.$index].exchangeEndTime }}</span>&nbsp;的班次
+        &nbsp;&nbsp;<span>==></span>&nbsp;&nbsp;
+        <span style="color: #FFA500">{{ scope.row.data[scope.$index].exchangedName }}</span>&nbsp;
+        <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedDate }}</span>&nbsp;日
+        <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedStartTime }}</span> &nbsp;到
+        <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedEndTime }}</span>&nbsp;的班次
+      </template>
+    </el-table-column>
+    <el-table-column prop="status" label="状态" align="center" />
   </el-table>
 </template>
 
 <script>
 export default {
-  props:["shopid_"],
+  props: ['shopid_'],
   data() {
     return {
       msg: []
@@ -32,10 +43,7 @@ export default {
         //      a.data.data[i].exchangeEndTime + '的班次和' + a.data.data[i].exchangedName + '' + a.data.data[i].exchangedDate + '日' +
         //      a.data.data[i].exchangedStartTime + '到' +
         //      a.data.data[i].exchangedEndTime + '的班次交换',
-        data: a.data.data[i].exchangeDate + '日' + a.data.data[i].exchangeStartTime + '至' +
-             a.data.data[i].exchangeEndTime + '的班次' + '\xa0' + '\xa0' + '\xa0' + '==>' + '\xa0' + '\xa0' + '\xa0' + a.data.data[i].exchangedName + '' + a.data.data[i].exchangedDate + '日' +
-             a.data.data[i].exchangedStartTime + '到' +
-             a.data.data[i].exchangedEndTime + '的班次',
+        data: a.data.data,
         status: b
       })
     }

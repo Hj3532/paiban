@@ -9,7 +9,19 @@
         width="100px"
         align="center"
       />
-      <el-table-column prop="data" label="全部信息" align="center"/>
+      <!--      <el-table-column prop="data" label="全部信息" align="center"/>-->
+      <el-table-column prop="data" label="全部信息" align="center" width="700px">
+        <template slot-scope="scope">
+          申请将 <span style="color: red">{{ scope.row.data[scope.$index].exchangeDate }}</span>&nbsp;日
+          <span style="color: red">{{ scope.row.data[scope.$index].exchangeStartTime }}</span> &nbsp;到
+          <span style="color: red">{{ scope.row.data[scope.$index].exchangeEndTime }}</span>&nbsp;的班次
+          &nbsp;&nbsp;<span>==></span>&nbsp;&nbsp;
+          <span style="color: #FFA500">{{ scope.row.data[scope.$index].exchangedName }}</span>&nbsp;
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedDate }}</span>&nbsp;日
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedStartTime }}</span> &nbsp;到
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedEndTime }}</span>&nbsp;的班次
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" align="center" />
       <el-table-column prop="" label="操作" width="220px" align="center">
         <template slot-scope="scope">
@@ -38,7 +50,19 @@
         width="100px"
         align="center"
       />
-      <el-table-column prop="data" label="全部信息" align="center"/>
+      <!--      <el-table-column prop="data" label="全部信息" align="center" />-->
+      <el-table-column prop="data" label="全部信息" align="center" width="700px">
+        <template slot-scope="scope">
+          申请将 <span style="color: red">{{ scope.row.data[scope.$index].exchangeDate }}</span>&nbsp;日
+          <span style="color: red">{{ scope.row.data[scope.$index].exchangeStartTime }}</span> &nbsp;到
+          <span style="color: red">{{ scope.row.data[scope.$index].exchangeEndTime }}</span>&nbsp;的班次
+          &nbsp;&nbsp;<span>==></span>&nbsp;&nbsp;
+          <span style="color: #FFA500">{{ scope.row.data[scope.$index].exchangedName }}</span>&nbsp;
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedDate }}</span>&nbsp;日
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedStartTime }}</span> &nbsp;到
+          <span style="color: cornflowerblue">{{ scope.row.data[scope.$index].exchangedEndTime }}</span>&nbsp;的班次
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" align="center" />
     </el-table>
     <!-- <button @click="a(0)">测试</button> -->
@@ -65,21 +89,7 @@ export default {
         b = '暂未处理'
         this.msg.push({
           data:
-            a.data.data[i].exchangeName +
-            '想把' +
-            a.data.data[i].exchangeDate +
-            '日' +
-            a.data.data[i].exchangeStartTime +
-            '到' +
-            a.data.data[i].exchangeEndTime +
-            '的班次和我的' +
-            '' +
-            a.data.data[i].exchangedDate +
-            '日' +
-            a.data.data[i].exchangedStartTime +
-            '到' +
-            a.data.data[i].exchangedEndTime +
-            '的班次交换',
+            a.data.data,
           status: b,
           applyId: a.data.data[i].applyId
         })
@@ -87,21 +97,7 @@ export default {
         b = '已拒绝'
         this.old.push({
           data:
-            a.data.data[i].exchangeName +
-            '申请将' +
-            a.data.data[i].exchangeDate +
-            '日' +
-            a.data.data[i].exchangeStartTime +
-            '到' +
-            a.data.data[i].exchangeEndTime +
-            '的班次' + '\xa0' + '\xa0' + '\xa0' + '==>' + '\xa0' + '\xa0' + '\xa0' + '你的' +
-            '' +
-            a.data.data[i].exchangedDate +
-            '日' +
-            a.data.data[i].exchangedStartTime +
-            '到' +
-            a.data.data[i].exchangedEndTime +
-            '的班次',
+            a.data.data,
           status: b,
           applyId: a.data.data[i].applyId
         })
@@ -129,21 +125,7 @@ export default {
         // })
         this.old.push({
           data:
-            a.data.data[i].exchangeName +
-            '申请将' +
-            a.data.data[i].exchangeDate +
-            '日' +
-            a.data.data[i].exchangeStartTime +
-            '到' +
-            a.data.data[i].exchangeEndTime +
-            '的班次' + '\xa0' + '\xa0' + '\xa0' + '==>' + '\xa0' + '\xa0' + '\xa0' + '你的' +
-            '' +
-            a.data.data[i].exchangedDate +
-            '日' +
-            a.data.data[i].exchangedStartTime +
-            '到' +
-            a.data.data[i].exchangedEndTime +
-            '的班次',
+            a.data.data,
           status: b,
           applyId: a.data.data[i].applyId
         })
