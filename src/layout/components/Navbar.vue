@@ -19,6 +19,26 @@
     </div>
     <!--    右上角logo-->
     <el-dialog :visible.sync="dialogFormVisible_logo" title="个人中心">
+      <!--      <div style="border-radius: 60px">-->
+      <!--        <el-button icon="el-icon-s-custom" style="width: 150px;height:150px;border-radius: 60px;margin-left: 50px;margin-top: 40px" @click="showPrivacy">-->
+      <!--          个人信息-->
+      <!--          <h1 style="font-size: 0.175em">ID、姓名、邮箱等</h1>-->
+      <!--        </el-button>-->
+      <!--        <el-button-->
+      <!--          icon="el-icon-s-tools"-->
+      <!--          style="width: 150px;height:150px;-->
+      <!--        border-radius: 60px;margin-left: 45px;margin-top: 40px"-->
+      <!--          @click="aboutStore"-->
+      <!--        >-->
+      <!--          关于门店规则-->
+      <!--          <h1 style="font-size: 0.175em">客流量、准备时间等</h1>-->
+      <!--        </el-button>-->
+      <!--        <el-button icon="el-icon-edit" style="width: 150px;height:150px;border-radius: 60px;margin-left: 40px;margin-top: 40px" @click="aboutEmp">-->
+      <!--          关于自己的偏好-->
+      <!--          <h1 style="font-size: 0.175em">班次偏好、时长偏好等</h1>-->
+      <!--        </el-button>-->
+      <!--        <el-button style="display: block;width: 150px;border-radius: 60px;margin-left: 250px;margin-top: 40px" @click="logout_">退出</el-button>-->
+      <!--      </div>-->
       <div style="border-radius: 60px">
         <el-button icon="el-icon-s-custom" style="width: 150px;height:150px;border-radius: 60px;margin-left: 50px;margin-top: 40px" @click="showPrivacy">
           个人信息
@@ -598,7 +618,7 @@ export default {
           this.dialogFormVisible_aboutPrefer = false
           this.dialogFormVisible_editPrefer = false
           this.$message({ message: '修改成功！', type: 'success' })
-          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(()=>{
+          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(() => {
             location.reload()
           })
         }
@@ -677,7 +697,7 @@ export default {
         if (res.data.flag) {
           this.dialogFormVisible1 = false
           this.$message({ message: '修改成功！', type: 'success' })
-          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(()=>{
+          this.$http.post('/schedule/refreshSchedule/' + this.shopId).then(() => {
             location.reload()
           })
           // location.reload()

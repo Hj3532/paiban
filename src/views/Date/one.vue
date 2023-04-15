@@ -693,7 +693,7 @@ export default {
           return
         }
       }
-      if (change_ == 3) {
+      if (change_ === 3) {
         this.changelist.splice(1, 1)
         change_ = 1
       }
